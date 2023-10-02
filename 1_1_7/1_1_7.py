@@ -25,7 +25,6 @@ def rotate(A, F):
                 s = A[j, i] / np.sqrt(A[i, i]**2 + A[j, i]**2)
 
                 A[[i, j]] = update_rows(A[i].copy(), A[j].copy(), c, s, A_n)
-                # A[j] = np.array([-s*row_i[q] + c*row_j[q] for q in range(n)], dtype=float)
                 
                 F[[i, j]] = update_rows(F[i].copy(), F[j].copy(), c, s, F_m)
 
@@ -58,20 +57,9 @@ def main():
     A = convert_to_float(data['A'])
     F = convert_to_float(data['F'])
 
-    x = rotate(A, F)
+    X = rotate(A, F)
 
-    print("Solution:", *x)
+    print("Решение:", *round_to_two_decimal_places(X))
 
 if __name__ == '__main__':
     main()
-
-# A = np.array([[1, 2, 3],
-#               [3, 5, 7],
-#               [1, 3, 4]])
-
-# f = np.array([3, 0, 1])
-
-# A_float = convert_to_float(A)
-# f_float = convert_to_float(f)
-
-
