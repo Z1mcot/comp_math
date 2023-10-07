@@ -15,7 +15,6 @@ def rotate(A, F):
     A_n = A.shape[0]
     F_m = F.shape[1]
     
-    x = np.zeros(shape=(A_n, F_m))
     X = np.zeros(shape=(A_n, F_m))
 
     for i in range(A_n-1):
@@ -30,7 +29,7 @@ def rotate(A, F):
 
     for k in range(A_n-1, -1, -1):
         prev = calc_prev_xs(X[k+1:], A[k, k+1:])
-        X[k] = np.divide(np.subtract(F[k], prev), A[k,k])
+        X[k] = (F[k] - prev) / A[k, k]
     
     return X
 
@@ -40,26 +39,34 @@ def calc_prev_xs(X, A):
     
     res = np.zeros(X.shape[1])
     for i in range(X.shape[0]):
-        huy = np.array([elem * A[i] for elem in X[i]])
         res = res + np.array([elem * A[i] for elem in X[i]])
+    
     return res
 
-        
+def calc_residual_matrix(A, X, F):
+    return F - A * X
 
+# Для красивого вывода ответа
 def round_to_two_decimal_places(arr, digits = 2):
     rounded_arr = np.round(arr, digits)
     return rounded_arr
 
 def main():
+    # Считываем данные из файла
     with open('./matrix.json', 'r') as file:
         data = json.load(file)
 
+    # Приводим считанные матрицы к типу float
     A = convert_to_float(data['A'])
     F = convert_to_float(data['F'])
 
     X = rotate(A, F)
 
-    print("Решение:", *round_to_two_decimal_places(X))
+    print("Решение:\n", round_to_two_decimal_places(X))
+
+    residual = calc_residual_matrix(A, X, F)
+
+    print("Матрица невязки:\n", round_to_two_decimal_places(residual))
 
 if __name__ == '__main__':
     main()
