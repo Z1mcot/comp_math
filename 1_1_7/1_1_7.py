@@ -17,6 +17,7 @@ def rotate(A, F):
     
     X = np.zeros(shape=(A_n, F_m))
 
+    # Прямой ход
     for i in range(A_n-1):
         for j in range(i+1, A_n):
             if A[j, i] != 0:
@@ -27,6 +28,7 @@ def rotate(A, F):
                 
                 F[[i, j]] = update_rows(F[i].copy(), F[j].copy(), c, s, F_m)
 
+    # Обратный ход
     for k in range(A_n-1, -1, -1):
         prev = calc_prev_xs(X[k+1:], A[k, k+1:])
         X[k] = (F[k] - prev) / A[k, k]
