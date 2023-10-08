@@ -1,4 +1,5 @@
 import json
+import os
 import numpy as np
 
 def convert_to_float(arr):
@@ -46,29 +47,34 @@ def calc_prev_xs(X, A):
     return res
 
 def calc_residual_matrix(A, X, F):
-    return F - A * X
+    return F - np.matmul(A, X) # где matmul - матричное умножение    
 
 # Для красивого вывода ответа
-def round_to_two_decimal_places(arr, digits = 2):
+def round_array(arr, digits = 2):
     rounded_arr = np.round(arr, digits)
     return rounded_arr
 
 def main():
+    root_dir = os.path.dirname(os.path.realpath(__file__))
     # Считываем данные из файла
-    with open('./matrix.json', 'r') as file:
+    with open(f'{root_dir}/matrix.json', 'r') as file:
         data = json.load(file)
 
     # Приводим считанные матрицы к типу float
     A = convert_to_float(data['A'])
     F = convert_to_float(data['F'])
 
-    X = rotate(A, F)
+    # используме копии, для того, чтобы не модифицировать исходные A и F
+    X = round_array(rotate(A.copy(), F.copy()))
 
-    print("Решение:\n", round_to_two_decimal_places(X))
+    
+    print("Решение:\n", X)
 
     residual = calc_residual_matrix(A, X, F)
 
-    print("Матрица невязки:\n", round_to_two_decimal_places(residual))
+    print("Матрица невязки:\n", round_array(residual, 5))
 
 if __name__ == '__main__':
     main()
+
+    
