@@ -64,7 +64,7 @@ def main():
     A = convert_to_float(data['A'])
     F = convert_to_float(data['F'])
 
-    # используме копии, для того, чтобы не модифицировать исходные A и F
+    # используем копии, для того, чтобы не модифицировать исходные A и F
     X = round_array(rotate(A.copy(), F.copy()))
 
     
@@ -77,4 +77,3 @@ def main():
 if __name__ == '__main__':
     main()
 
-    
