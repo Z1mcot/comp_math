@@ -50,7 +50,7 @@ def calc_residual_matrix(A, X, F):
     return F - np.matmul(A, X) # где matmul - матричное умножение    
 
 # Для красивого вывода ответа
-def round_array(arr, digits = 2):
+def round_array(arr, digits = 6):
     rounded_arr = np.round(arr, digits)
     return rounded_arr
 
@@ -66,13 +66,12 @@ def main():
 
     # используем копии, для того, чтобы не модифицировать исходные A и F
     X = round_array(rotate(A.copy(), F.copy()))
-
     
     print("Решение:\n", X)
 
-    residual = calc_residual_matrix(A, X, F)
+    residual = round_array(calc_residual_matrix(A, X, F), 6)
 
-    print("Матрица невязки:\n", round_array(residual, 5))
+    print("Матрица невязки:\n", residual)
 
 if __name__ == '__main__':
     main()
