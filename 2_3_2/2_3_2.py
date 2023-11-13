@@ -32,7 +32,7 @@ def jacobian(x):
     return J
 
 # Начальное приближение
-x0 = np.array([0.5, 0.5])
+x0 = np.array([1.5, 1.5])
 
 # Решаем систему уравнений
 solution, iterations, converged = newton_raphson(equations, jacobian, x0)
