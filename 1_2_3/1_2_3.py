@@ -2,12 +2,6 @@ import json
 import os
 import numpy as np
 
-# # Определение системы уравнений Ax = f
-# A = np.array([[4, -1, 0],
-#               [-1, 4, -1],
-#               [0, -1, 3]])
-# f = np.array([5, -4, 7])
-
 # Функция, реализующая метод последовательных верхних релаксаций (метод Зейделя)
 def sor_method(A, f, gamma=1.2, initial_guess=None, max_iterations=100, tolerance=1e-6):
     if initial_guess is None:
@@ -29,17 +23,8 @@ def sor_method(A, f, gamma=1.2, initial_guess=None, max_iterations=100, toleranc
     
     return x
 
-# # Выполнение метода последовательных верхних релаксаций для системы уравнений
-# solution = sor_method(A, f, gamma=1.2, initial_guess=None, max_iterations=100, tolerance=1e-6)
-# print("Решение системы уравнений:", solution)
-
 def calc_residual_matrix(A, X, F):
     return F - np.matmul(A, X) # где matmul - матричное умножение    
-
-# Для красивого вывода ответа
-def round_array(arr, digits = 6):
-    rounded_arr = np.round(arr, digits)
-    return rounded_arr
 
 def main():
     root_dir = os.path.dirname(os.path.realpath(__file__))
