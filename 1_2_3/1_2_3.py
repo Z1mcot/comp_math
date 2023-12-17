@@ -37,13 +37,13 @@ def main():
 
     for i in range(len(A_matrices)):
         A = np.array(A_matrices[i])
-        print(f"Для исходных данный под номерами {i+1} и 6:\n")
+        print(f"\nДля исходных данный под номерами {i+1} и 6:\n")
 
         X = sor_method(A.copy(), f.copy(), gamma=1.2, initial_guess=None, max_iterations=100, tolerance=1e-6)
         print("Решение:\n", X)
 
         residual = calc_residual_matrix(A, X, f)
-        print("Матрица невязки:\n", residual)
+        print("Вектор невязки:\n", residual)
 
 if __name__ == '__main__':
     main()
