@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d
 
 # Создает СЛАУ с базисными функциямми
 def create_matrix(X_vector):
@@ -13,12 +14,12 @@ def create_matrix(X_vector):
                 
     return matrix
 
-def solve_equation(A, f):
+def solve_coefficients(A, f):
     return np.linalg.solve(A, f)
 
 # Исходная функция
 def f(x):
-    return np.exp(x) ** 2 + 4 * np.exp(x**2) - 10
+    return np.exp(x) * 0.064
 
 def g(coefficients, x):
     n = len(X_vector)
@@ -30,20 +31,30 @@ def g(coefficients, x):
 
     return a_0 + np.sum(sum_body)
 
-# Example usage
-X_vector = np.array([4, 5, 6, 7, 8, 10 ,12])
-Y_vector = np.array([f(x) for x in X_vector])
-result_matrix = create_matrix(X_vector.copy())
-print('result_matrix: ', result_matrix)
-coefficients = solve_equation(result_matrix, Y_vector.copy())
-print(coefficients)
+def main():
+    # Исходные данные
+    X_vector = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    Y_vector = np.array([f(x) for x in X_vector])
 
-interpolated_X = [float(x) / 10 for x in range(40, 121)]
-interpolated_Y = [g(coefficients, x) for x in interpolated_X]
+    # Получаем матрицу с базисными функциями
+    result_matrix = create_matrix(X_vector.copy())
+    print('result_matrix: ', result_matrix)
 
+    # Находим неизвестные коэффициенты
+    coefficients = solve_coefficients(result_matrix, Y_vector.copy())
+    print(coefficients)
 
+    # Находим интерполированные значения в переделах (a, b)
+    interpolated_X = [float(x) / 10 for x in range(X_vector.min() * 10, X_vector.max() * 10 + 1)]
+    interpolated_Y = [g(coefficients, x) for x in interpolated_X]
 
-plt.scatter(X_vector, Y_vector, label='Original data')
-plt.plot(interpolated_X, interpolated_Y, 'r-', label='Fitted curve')
-plt.legend()
-plt.show()
+    lib_interpolation = interp1d(X_vector, Y_vector, kind='cubic')
+
+    plt.scatter(X_vector, Y_vector, label='Исходные данные')
+    plt.plot(interpolated_X, interpolated_Y, 'r-', label='Наша интерполяция')
+    plt.plot(interpolated_X, lib_interpolation(interpolated_X), 'g-', label='Библиотечная интерполяция')
+    plt.legend()
+    plt.show()
+
+if __name__ == "__main__":
+    main()    
