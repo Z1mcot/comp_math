@@ -19,10 +19,10 @@ def solve_coefficients(A, f):
 
 # Исходная функция
 def f(x):
-    return np.exp(x) * 0.064
+    return 0.25*(np.exp(x*2) ** 2) + x**4 
 
 def g(coefficients, x):
-    n = len(X_vector)
+    n = len(coefficients)
     a_0 = coefficients[0]
     sum_body = []
     
