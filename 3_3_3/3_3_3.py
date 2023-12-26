@@ -73,15 +73,11 @@ def calculate_eigenvectors(A, eigenvalues):
 
     return eigenvectors
 
-# def round_array(arr, digits = 6):
-#     rounded_arr = np.round(arr, digits)
-#     return rounded_arr
-
 def calc_residual_matrix(matrix, eigenvalues, eigenvectors):
     result = []
     n = matrix.shape[0]
     for i in range(n):
-        result.append(matrix*eigenvectors[i] - eigenvalues[i]*eigenvectors[i])
+        result.append(eigenvalues[i]*eigenvectors[i] - matrix*eigenvectors[i])
     return result
 
 def main():
